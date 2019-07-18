@@ -1,5 +1,5 @@
-#update kb to us 
-sudo nano /etc/default/keyboard
+# update kb to us
+~~~~ sudo nano /etc/default/keyboard
 
 # Hardening
 # https://www.raspberrypi.org/documentation/configuration/security.md
