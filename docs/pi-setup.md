@@ -1,26 +1,28 @@
-# update kb to us
+# Raspberry Pi Setup
+
+### update kb to us
 sudo nano /etc/default/keyboard
 
-# Hardening
+## Hardening
 # https://www.raspberrypi.org/documentation/configuration/security.md
 
-#Create new user
+# Create new user
 sudo adduser kadmin
 sudo adduser kadmin sudo
 
-#test then remove pi
+# Test then remove pi
 sudo deluser pi
 
-#make sudo require a password on kadmin (change 'pi' to 'kadmin')
+# Make sudo require a password on kadmin (change 'pi' to 'kadmin')
 sudo nano /etc/sudoers.d/010_pi-nopasswd	
 
-#install fail2ban
+# Install fail2ban
 sudo apt install fail2ban
 
-#copy fail2ban config to local
+# copy fail2ban config to local
 sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
-#add the following under sshd
+# add the following under sshd
 sudo nano /etc/fail2ban/jail.local
 
 [ssh]
@@ -32,27 +34,27 @@ maxretry = 3
 findtime = 1800
 bantime = 1800
 
-#restart fail2ban
+# restart fail2ban
 sudo systemctl enable fail2ban
 sudo systemctl restart fail2ban
 
 
 # Basic configuration
 
-#disable swap
+# disable swap
 sudo dphys-swapfile swapoff && \
   sudo dphys-swapfile uninstall && \
   sudo update-rc.d dphys-swapfile remove
 
-#update boot
+# update boot
 sudo nano /boot/cmdline.txt
-#add to end
+# add to end
  cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
 
-#disable wifi
+# disable wifi
 echo "dtoverlay=pi3-disable-wifi" | sudo tee -a /boot/config.txt
 
-#setup static ip
+# setup static ip
 sudo nano /etc/dhcpcd.conf
 sudo systemctl daemon-reload
 sudo service dhcpcd restart
@@ -62,30 +64,30 @@ sudo service dhcpcd restart
 	nameserver 192.80.1.90
 
 
-#get latest
+# get latest
 sudo apt-get update
 sudo apt-get upgrade
 
-#remove pulse audio
+# remove pulse audio
 sudo apt-get -y purge "pulseaudio*"
 
 # Docker & Kubernetes Setup
 
-#install Docker
+# install Docker
 curl -sL get.docker.com | sed 's/9)/10)/' | sh
 #curl -sSL get.docker.com | sh && \
 
-#create docker group
+# create docker group
 sudo usermod kadmin -aG docker
 newgrp docker
 
-#install kubernetes
+# install kubernetes
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
   echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list && \
   sudo apt-get update -q && \
   sudo apt-get install -qy kubeadm
 
-################# Configure Kubernetes #######################
+# Configure Kubernetes
 
 sudo kubeadm config images pull -v3
 
@@ -95,14 +97,12 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-#Make note of join command
-#kubeadm join 192.168.201.54:6443 --token 4x99eh.73i3nwda9i95pe7j \
-#    --discovery-token-ca-cert-hash sha256:4fca144be36798a0864edf96a224c7db3b8cb1
+# Make note of join command
 
-#configure Flannel
+# configure Flannel
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 sudo sysctl net.bridge.bridge-nf-call-iptables=1
 
-#Configure K8 dashboard
+# Configure K8 dashboard
 #do this: https://github.com/kubernetes/dashboard/wiki/Access-control#admin-privileges
 
