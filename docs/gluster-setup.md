@@ -1,5 +1,5 @@
 # Gluster
-[Gluster](https://www.gluster.org/) is a wonderful storage system built to run on commodity hardware. This makes it the perfect solution for a persistent volume file system for kubernetes (you can't get much more "commodity" than a PI). For this example we're just going to use a file system off the root SD card however you may wish to use a USB drive off the USB 3.1 ports in order to save the health of your SD cards and to avoid contention.
+[Gluster](https://www.gluster.org/) is a wonderful storage system built to run on commodity hardware. This makes it the perfect solution for a persistent volume file system for kubernetes (you can't get much more "commodity" than a PI). For this example we're just going to use a file system off the root SD card however you may wish to use a USB drive off the USB 3.1 ports in order to save the health of your SD cards and too avoid contention.
 
 NOTE: In the example below we are installing the gluster server on the worker nodes as well. While this allows connectivity to gluster from the kubernetes pods on the worker nodes we really only need the [Gluster Client](https://docs.gluster.org/en/latest/Administrator%20Guide/Setting%20Up%20Clients/) installed. I'll refine the implementation at a later date.
 
