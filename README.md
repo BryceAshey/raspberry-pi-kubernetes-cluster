@@ -5,19 +5,20 @@ Designs, instructions, and more for a seven node Raspberry PI Kubernetes cluster
 
 **Total Build Time:** Expert 1 week / Newbie 4 - 8 weeks
 
-Physical Construction
+### [Physical Construction](docs/construction.md)
+When using the 3D printed brackets it is possible to squeeze 7 Raspberry PIs across the length of the POE switch. Doing so makes for a tidy little cluster that will fit on most bookshelves.
 
 ### [All Node Setup](docs/all-node-setup.md)
 Each node requires some basic setup to prep it for use with Kubernetes.
 
 ### [Master Node Setup](docs/master-node-setup.md)
+The master nodes utilize Keepalive and HAProxy to ensure the node address (192.168.200.249 in this example) is always online. 
 
+### [Kubernetes Setup](docs/kubernetes-setup.md)
+In this section we setup kubernetes on the first master node then join the subsequent master and worker nodes to it. Be sure to copy the certificates from kuber04m01 to the other master nodes. Do NOT copy the certificates to the worker nodes.
 
 ### [Gluster Setup](docs/gluster-setup.md)
 In this implementation we use [Gluster](https://gluster.org) as the backing filesytem for Kubernetes Persistent Volumes. Gluster provides a fault-tolerant system across commodity and disparate hardware.
-
-### [Kubernetes Setup](docs/kubernetes-setup.md)
-
 
 ## Additional Reading
 - [Igor Cicimov's Kubernetes cluster step-by-step](https://icicimov.github.io/blog/kubernetes/Kubernetes-cluster-step-by-step/)

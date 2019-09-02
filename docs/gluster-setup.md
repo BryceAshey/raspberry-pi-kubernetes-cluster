@@ -94,3 +94,150 @@ Task Status of Volume jenkins
 There are no active volume tasks
 
 ```
+
+## Setup Kubernetes
+
+Create the gluster endpoints in kubernetes. In the example below be sure to update the IPs to match your network and update the port to match the value from the output above.
+
+```
+> sudo nano glusterfs-endpoints.json
+
+# paste the following and save 
+{
+  "kind": "Endpoints",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "glusterfs-cluster"
+  },
+  "subsets": [
+    {
+      "addresses": [
+        {
+          "ip": "192.168.200.250"
+        }
+      ],
+      "ports": [
+        {
+          "port": 49152
+        }
+      ]
+    },
+    {
+      "addresses": [
+        {
+          "ip": "192.168.200.251"
+        }
+      ],
+      "ports": [
+        {
+          "port": 49152
+        }
+      ]
+    },
+    {
+      "addresses": [{ "ip": "192.168.200.252" }],
+      "ports": [{ "port": 49152 }]
+    }
+  ]
+}
+```
+
+Add the endpoint to kubernetes
+```
+> sudo kubectl create -f glusterfs-endpoints.json
+```
+
+Validate
+```
+> kubectl get endpoints
+
+NAME                ENDPOINTS                                                           AGE
+glusterfs-cluster   192.168.200.250:49152,192.168.200.251:49152,192.168.200.252:49152   23h
+kubernetes          192.168.200.250:6443,192.168.200.251:6443,192.168.200.252:6443      24h
+```
+
+## Create a Persistent Volume
+
+Create a volume for your pods to use. Note the **path** matches the "brick1" name from above.
+```
+> sudo nano brick1-volume.yaml
+
+# paste
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins
+  annotations:
+    pv.beta.kubernetes.io/gid: "0"
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  glusterfs:
+    endpoints: glusterfs-cluster
+    path: brick1
+    readOnly: false
+  persistentVolumeReclaimPolicy: Retain
+```
+
+Create the volume
+```
+> kubectl create -f brick1-volume.yaml
+```
+
+## Create a Persistent Volume Claim
+
+```
+> sudo nano brick1-pvc.yaml
+
+# paste
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: brick1-gluster-claim
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+     requests:
+       storage: 1Gi
+```
+
+Create the claim
+```
+> kubectl create -f brick1-pvc.yaml
+```
+
+Validate
+```
+> kubectl get persistentVolumes
+
+NAME      CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                           STORAGECLASS   REASON   AGE
+brick1   5Gi        RWX            Retain           Bound    default/brick1-gluster-claim                           18h
+```
+
+### Example spec for using the volume
+
+In the example below we are assigning the Persistent Volume "brick1" to the jenkins_home mount path in the jenkins image.
+
+Note: if you're going to try to setup Jenkins on ARM (i.e. the PI) be sure to use the jenkins4eval/jenkins image since it is the only one with ARM support.
+
+```
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins4eval/jenkins
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+        - name: brick1-home
+          mountPath: /var/jenkins_home
+          readOnly: false
+      volumes:
+      - name: brick1-home
+        persistentVolumeClaim:
+          claimName: brick1-gluster-claim
+```
