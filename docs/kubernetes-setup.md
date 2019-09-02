@@ -65,9 +65,9 @@ To regenerate the join commands use:
 
 Be sure to do the following after the join succeeds
 ```
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+> mkdir -p $HOME/.kube
+> sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+> sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 ## All Worker Nodes
@@ -81,7 +81,7 @@ To regenerate the join commands use:
 
 ## Confirmation
 
-You should be able to run the following command from kuber04m01
+You should be able to see the following response from kuber04m01
 ```
 > kubectl get nodes
 

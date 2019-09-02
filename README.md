@@ -1,6 +1,8 @@
 # Raspberry PI Based Kubernetes Cluster
 Designs, instructions, and more for a seven node Raspberry PI Kubernetes cluster.
 
+![PI Cluster](https://imgur.com/z3KjNY4)
+
 [**Bill of Materials**](docs/BOM.md)
 
 **Total Build Time:** Expert 1 week / Newbie 4 - 8 weeks
