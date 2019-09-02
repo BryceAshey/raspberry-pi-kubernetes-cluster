@@ -1,7 +1,7 @@
 # Raspberry PI Based Kubernetes Cluster
 Designs, instructions, and more for a seven node Raspberry PI Kubernetes cluster.
 
-![PI Cluster](https://imgur.com/z3KjNY4)
+![PI Cluster](https://i.imgur.com/z3KjNY4.jpg)
 
 [**Bill of Materials**](docs/BOM.md)
 
