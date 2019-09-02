@@ -3,9 +3,7 @@ Designs, instructions, and more for a seven node Raspberry PI Kubernetes cluster
 
 ![PI Cluster](https://i.imgur.com/z3KjNY4.jpg)
 
-**Total Build Time:** Expert 1 week / Newbie 4 - 8 weeks
-
-[**Bill of Materials**](docs/BOM.md)
+**Total Build Time:** Expert < 1 week / Newbie 4 weeks
 
 ### [Physical Construction](docs/construction.md)
 When using the 3D printed brackets it is possible to squeeze 7 Raspberry PIs across the length of the POE switch. Doing so makes for a tidy little cluster that will fit on most bookshelves.

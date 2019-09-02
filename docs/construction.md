@@ -1,5 +1,7 @@
 # Building the Cluster
 
+[**Bill of Materials**](docs/BOM.md)
+
 Constructing the physical parts of the cluster is fairly straightforward once the mounts are printed.
 
 ## Printing the Switch Rack Mounts
