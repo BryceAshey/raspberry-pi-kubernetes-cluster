@@ -65,6 +65,13 @@ Setup iptables to forward packets (required by Kubernetes networking)
 > sudo iptables -P FORWARD ACCEPT
 ```
 
+Add the above line to /etc/rc.local so that it gets reset on every boot
+```
+> sudo nano /etc/rc.local
+# Paste the following line above "Exit 0" and make sure the top of the file has "#!/bin/sh -e"
+/sbin/iptables -P FORWARD ACCEPT
+```
+
 Allow non-local bind (required by HAProxy)
 Allow bridge to call iptables
 ```
