@@ -136,6 +136,11 @@ Add kadmin to the docker group
   sudo apt-get install -qy kubeadm
 ```
 
+On the **master** nodes only; prepull the images for kubernetes
+```
+> sudo kubeadm config images pull -v3
+```
+
 ### [Optional] Enable CIFS volumes
 ```
 > sudo apt-get install -y jq
@@ -147,11 +152,6 @@ Add kadmin to the docker group
 
 # Verify the installation
 > $VOLUME_PLUGIN_DIR/fstab~cifs/cifs init
-```
-
-On the **master** nodes only; prepull the images for kubernetes
-```
-> sudo kubeadm config images pull -v3
 ```
 
 Reboot again - ran into an issue once or twice when I didn't reboot
