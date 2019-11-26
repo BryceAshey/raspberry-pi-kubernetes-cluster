@@ -130,10 +130,23 @@ Add kadmin to the docker group
 ### Install Kubernetes
 
 ```
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
+> curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
   echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list && \
   sudo apt-get update -q && \
   sudo apt-get install -qy kubeadm
+```
+
+### [Optional] Enable CIFS volumes
+```
+> sudo apt-get install -y jq
+> VOLUME_PLUGIN_DIR="/usr/libexec/kubernetes/kubelet-plugins/volume/exec"
+> sudo mkdir -p "$VOLUME_PLUGIN_DIR/fstab~cifs"
+> cd "$VOLUME_PLUGIN_DIR/fstab~cifs"
+> sudo curl -L -O https://raw.githubusercontent.com/fstab/cifs/master/cifs
+> sudo chmod 755 cifs
+
+# Verify the installation
+> $VOLUME_PLUGIN_DIR/fstab~cifs/cifs init
 ```
 
 On the **master** nodes only; prepull the images for kubernetes
