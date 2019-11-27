@@ -29,3 +29,4 @@ In this implementation we use [Gluster](https://gluster.org) as the backing file
 - [K8s on Rasbian](https://github.com/teamserverless/k8s-on-raspbian/blob/master/GUIDE.md)
 - [Kubernetes High Availability](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/)
 - [Flannel](https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c)
+- [CIFS Volumes](https://github.com/fstab/cifs)
