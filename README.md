@@ -1,6 +1,8 @@
 # Raspberry PI Based Kubernetes Cluster
 Designs, instructions, and more for a seven node Raspberry PI Kubernetes cluster.
 
+As an enclosure alternative, [Uptime Labs released the STL files](https://uplab.pro/2020/12/raspberry-pi-server-mark-iii/) for a 19" rackmount that fits 14 Raspberry Pis.
+
 ![PI Cluster](https://i.imgur.com/z3KjNY4.jpg)
 
 **Total Build Time:** Expert < 1 week / Newbie 4 weeks
